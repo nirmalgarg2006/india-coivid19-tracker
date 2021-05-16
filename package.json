@@ -1,5 +1,5 @@
 {
-	"name": "India Covid19 Tracker",
+	"name": "india-covid19-tracker",
 	"version": "1.0.0.0",
 	"dependencies": {
 		"express": "^4.17.1"
