@@ -16,7 +16,7 @@ app.get('/statewisecovidcases.html', (req,res) => {
     res.sendFile( __dirname + "/" + "statewisecovidcases.html" );
 });
 
-const server = app.listen(8081, () => {
+const server = app.listen(process.env.PORT || 8080, () => {
     const host = server.address().address
     const port = server.address().port
     console.log("Example app listening at http://%s:%s", host, port)
