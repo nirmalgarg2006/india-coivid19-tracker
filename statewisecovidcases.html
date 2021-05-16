@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Statewise Data</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans" rel="stylesheet">
+    <style>
+        *{
+    		margin: 0;
+    		padding: 0;
+    		font-family: 'Josefin Sans', sans-serif;
+    	}
+    	td.info:hover{
+    		background-color: grey;
+    		color: white;
+    		font-weight: bold;
+    	}
+    	td.success:hover{
+    		background-color: green;
+    		color: white;
+    		font-weight: bold;
+    	}
+    	td.danger:hover{
+    		background-color: red;
+    		color: white;
+    		font-weight: bold;
+    	}
+    	td.warning:hover{
+    		background-color: yellow;
+    		color: black;
+    		font-weight: bold;
+    	}
+	</style>
+	<script type="text/javascript" src="./scripts/statewisecoviddata.js"></script>
+</head>
+<body>
+	<section>
+		 <div class="container-fluid">
+        	<h1 class="text-center text-capitalize pt-2">India Statewise Covid Data</h1>
+            <hr class="w-50 mx-auto">
+            <div class="row">
+            	<table id="tblStatewise" class="table table-bordered">
+            		<thead>
+            			<tr>
+            				<th>State</th>
+            				<th>Today's Cases</th>
+            				<th>Today's Recovered</th>
+            				<th>Today's Deaths</th>
+            				<th>Total Cases</th>
+            				<th>Total Active Cases</th>
+            				<th>Total Recovered</th>
+            				<th>Total Deaths</th>
+            				<th>Last Update Time</th>
+            			</tr>
+            		</thead>
+            		<tbody></tbody>
+            	</table>
+            </div>
+        </div>
+	</section>
+</body>
+<script type="text/javascript">
+var httpRequest;
+let statewisedata;
+
+$(window).on('load', () => {
+        makeRequest();
+ })
+
+function makeRequest() {
+        let url = 'https://api.covid19india.org/data.json';
+        httpRequest = new XMLHttpRequest();
+
+        if (!httpRequest) {
+            alert('Giving up :( Cannot create an XMLHTTP instance');
+            return false;
+        }
+        httpRequest.onreadystatechange = alertContents;
+        httpRequest.open('GET', url);
+        httpRequest.send();
+    }
+
+    function alertContents() {
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            if (httpRequest.status === 200) {
+                let coviddata = JSON.parse(httpRequest.responseText);
+                statewisedata = coviddata.statewise;
+                let tabledata='';
+                for (let i = 0; i < statewisedata.length; i++) {
+                    if (statewisedata[i].statecode != 'TT' && statewisedata[i].statecode != 'UN') {
+                        tabledata += '<tr>';
+                        tabledata += '<td>' + statewisedata[i].state + '</td>';
+                        tabledata += '<td class="info">' + statewisedata[i].deltaconfirmed + '</td>';
+                        tabledata += '<td class="success">' + statewisedata[i].deltarecovered + '</td>';
+                        tabledata += '<td class="danger">' + statewisedata[i].deltadeaths + '</td>';
+                        tabledata += '<td class="info"> ' + statewisedata[i].confirmed + '</td>';
+                        tabledata += '<td class="warning">' + statewisedata[i].active + '</td>';
+                        tabledata += '<td class="success">' + statewisedata[i].recovered + '</td>';
+                        tabledata += '<td class="danger">' + statewisedata[i].deaths + '</td>';
+                        tabledata += '<td>' + statewisedata[i].lastupdatedtime + '</td>';
+                        tabledata += '</tr>'
+                    }
+                }
+                $('#tblStatewise tbody').html(tabledata);
+
+            } else {
+                alert('There was a problem with the request.');
+            }
+        }
+    }
+</script>
+</html>
