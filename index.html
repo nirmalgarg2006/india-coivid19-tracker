@@ -189,7 +189,10 @@ let statewisedata;
     }
 
     $(window).on('load', () => {
-        makeRequest();
+        $('#myModal').modal('show');
+        setTimeout(function(){
+            makeRequest();
+        },3000);
     })
 
     function refreshData(){
