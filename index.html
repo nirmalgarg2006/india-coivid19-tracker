@@ -100,6 +100,36 @@
             </div>
         </div>
     </section>
+    <section>
+        <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Loading...</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body  ml-auto mr-auto text-center">
+         <div class="spinner-border text-primary" role="status">
+  <span class="sr-only">Loading...</span>
+</div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+</div>
+    </section>
 </body>
     <script type="text/javascript">
         var httpRequest;
@@ -147,10 +177,12 @@ let statewisedata;
                         document.getElementById('todaycases').innerText = todaycases;
                         document.getElementById('todaydeaths').innerText = todaydeaths;
 						document.getElementById('lastUpdatedTime').innerText = statewisedata[i].lastupdatedtime;
+                        $('#myModal').modal('hide');
                     }
                 }
 
             } else {
+                $('#myModal').modal('hide');
                 alert('There was a problem with the request.');
             }
         }
@@ -161,7 +193,11 @@ let statewisedata;
     })
 
     function refreshData(){
-        makeRequest();
+        $('#myModal').modal('show');
+        setTimeout(function(){
+            makeRequest();
+        },3000);
+        
     }
 
    
