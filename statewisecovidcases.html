@@ -55,7 +55,7 @@
     <section>
         <div class="container">
             <div class="row mr-auto">
-                <div class="col-lg-12 col-md-12 col-12">
+                <div class="col-lg-8 col-md-8 col-12">
                     <fieldset>
                         <label for="state">Select a state</label>
                         <select name="state" id="state">
@@ -63,36 +63,12 @@
                         </select>
                     </fieldset>
                 </div>
+             
             </div>
             
         </div>
     </section>
-<!--
-	<section>
-		 <div class="container-fluid">
-        	<h1 class="text-center text-capitalize pt-2">India Statewise Covid Data</h1>
-            <hr class="w-50 mx-auto">
-            <div class="row">
-            	<table id="tblStatewise" class="table table-bordered">
-            		<thead>
-            			<tr>
-            				<th>State</th>
-            				<th>Today's Cases</th>
-            				<th>Today's Recovered</th>
-            				<th>Today's Deaths</th>
-            				<th>Total Cases</th>
-            				<th>Total Active Cases</th>
-            				<th>Total Recovered</th>
-            				<th>Total Deaths</th>
-            				<th>Last Update Time</th>
-            			</tr>
-            		</thead>
-            		<tbody></tbody>
-            	</table>
-            </div>
-        </div>
-	</section>
--->
+
     <section id="coviddata" style="display: none">
         <div class="container">
 <!--
@@ -104,7 +80,12 @@
     				<button class="btn btn-primary" onclick="refreshData(); return false;">Refresh</button>
     			</div>
     		</div>
--->
+-->         
+            <div class="row mt-5">
+                   <div id="divlastupdatedtime" class="col-lg-4 col-md-4 col-12" style="display: none">
+                    <p>Last Updated Time : <span id="lastupdatedtime"></span><p>
+                </div>
+            </div>
             <div class="row mb-5 pt-2">
                 <div class="col-lg-4 col-md-4 col-12 ">
                     <div class="card bg-info text-white text-center font-weight-bold">
@@ -216,20 +197,9 @@ function makeRequest() {
                             lastupdatedtime : statewisedata[i].lastupdatedtime,
                             state : statewisedata[i].state
                         });
-                        /*tabledata += '<tr>';
-                        tabledata += '<td>' + statewisedata[i].state + '</td>';
-                        tabledata += '<td class="info">' + statewisedata[i].deltaconfirmed + '</td>';
-                        tabledata += '<td class="success">' + statewisedata[i].deltarecovered + '</td>';
-                        tabledata += '<td class="danger">' + statewisedata[i].deltadeaths + '</td>';
-                        tabledata += '<td class="info"> ' + statewisedata[i].confirmed + '</td>';
-                        tabledata += '<td class="warning">' + statewisedata[i].active + '</td>';
-                        tabledata += '<td class="success">' + statewisedata[i].recovered + '</td>';
-                        tabledata += '<td class="danger">' + statewisedata[i].deaths + '</td>';
-                        tabledata += '<td>' + statewisedata[i].lastupdatedtime + '</td>';
-                        tabledata += '</tr>'*/
                     }
                 }
-                //$('#tblStatewise tbody').html(tabledata);
+                
                 states.forEach( st => {
                     console.log(st);
                     $('#state').append('<option value=' + st.statecode + '>' + st.state + '</option>')
@@ -243,20 +213,20 @@ function makeRequest() {
 $( "#state" ).selectmenu({
     select : function(event,ui){
         let tabledata='';
-        //console.log(event);
-        //console.log(ui);
-        //alert(ui.item.value);
+     
         if(ui.item.value != 0)
             {
                 let statedata = statesdata.find(st => st.statecode === ui.item.value);
-        //console.log(statedata);
-                document.getElementById('totalcovidcases').innerText = statedata.totalcases;
-                        document.getElementById('totalactivecase').innerText = statedata.totalactive;
-                        document.getElementById('totaldeaths').innerText = statedata.totaldeaths;
-                        document.getElementById('totalrecovered').innerText = statedata.totalrecovered;
-                        document.getElementById('todayrecovered').innerText = statedata.todaysrecovered;
-                        document.getElementById('todaycases').innerText = statedata.todayscase;
-                        document.getElementById('todaydeaths').innerText = statedata.todaysdeaths;
+        
+                $('#totalcovidcases').text(statedata.totalcases);
+                        $('#totalactivecase').text(statedata.totalactive);
+                        $('#totaldeaths').text(statedata.totaldeaths);
+                        $('#totalrecovered').text(statedata.totalrecovered);
+                        $('#todayrecovered').text(statedata.todaysrecovered);
+                        $('#todaycases').text(statedata.todayscase);
+                        $('#todaydeaths').text(statedata.todaysdeaths);
+                $('#lastupdatedtime').text(statedata.lastupdatedtime);
+                $('#divlastupdatedtime').css('display','block');
                 $('#coviddata').css('display','block');
             }
         else{
