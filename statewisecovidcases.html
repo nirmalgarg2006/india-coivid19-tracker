@@ -10,7 +10,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans" rel="stylesheet">
-	<script data-ad-client="ca-pub-6075914433048997" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <style>
         *{
     		margin: 0;
@@ -37,10 +38,36 @@
     		color: black;
     		font-weight: bold;
     	}
+        fieldset {
+          border: 0;
+        }
+        label {
+          display: block;
+          margin: 30px 0 0 0;
+        }
+        .overflow {
+          height: 200px;
+        }
 	</style>
-	<script type="text/javascript" src="./scripts/statewisecoviddata.js"></script>
+<!--	<script type="text/javascript" src="./scripts/statewisecoviddata.js"></script>-->
 </head>
 <body>
+    <section>
+        <div class="container">
+            <div class="row mr-auto">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <fieldset>
+                        <label for="state">Select a state</label>
+                        <select name="state" id="state">
+                          <option value="0" selected>--Select State--</option>
+                        </select>
+                    </fieldset>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+<!--
 	<section>
 		 <div class="container-fluid">
         	<h1 class="text-center text-capitalize pt-2">India Statewise Covid Data</h1>
@@ -65,11 +92,90 @@
             </div>
         </div>
 	</section>
+-->
+    <section id="coviddata" style="display: none">
+        <div class="container">
+<!--
+        	<h1 class="text-center text-capitalize pt-2">Covid19 India Tracker</h1>
+            <hr class="w-50 mx-auto">
+            <div class="row">
+    			<div class="col-lg-12 col-md-12 col-12 text-lg-center">
+    				<a href="./statewisecovidcases.html" target="_black" class="btn btn-primary">Statewise</a>
+    				<button class="btn btn-primary" onclick="refreshData(); return false;">Refresh</button>
+    			</div>
+    		</div>
+-->
+            <div class="row mb-5 pt-2">
+                <div class="col-lg-4 col-md-4 col-12 ">
+                    <div class="card bg-info text-white text-center font-weight-bold">
+                        <div class="card-body" style="font-size: 30px;">
+                            <p>Today's Cases</p>
+                            <p>Count : <span id="todaycases"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="card bg-success text-white text-center font-weight-bold">
+                        <div class="card-body" style="font-size: 30px;">
+                            <p>Today's Recovered</p>
+                            <p>Count : <span id="todayrecovered"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="card bg-danger text-white text-center font-weight-bold">
+                        <div class="card-body" style="font-size: 30px;">
+                            <p>Today's Deaths</p>
+                            <p>Count : <span id="todaydeaths"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-lg-4 col-md-4 col-12 ">
+                    <div class="card bg-info text-white text-center font-weight-bold">
+                        <div class="card-body" style="font-size: 30px;">
+                            <p>Total Cases</p>
+                            <p>Count : <span id="totalcovidcases"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="card bg-success text-white text-center font-weight-bold">
+                        <div class="card-body" style="font-size: 30px;">
+                            <p>Total Recovered</p>
+                            <p>Count : <span id="totalrecovered"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="card bg-danger text-white text-center font-weight-bold">
+                        <div class="card-body" style="font-size: 30px;">
+                            <p class="text-capitalize">Total Deaths</p>
+                            <p>Count : <span id="totaldeaths"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-5">
+        		
+                <div class="col-lg-4 col-md-4 col-12 ml-auto mr-auto">
+                    <div class="card bg-warning text-white text-center font-weight-bold">
+                        <div class="card-body" style="font-size: 30px;">
+                            <p>Total Active Cases</p>
+                            <p>Count : <span id="totalactivecase"></span></p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
 </body>
 <script type="text/javascript">
 var httpRequest;
 let statewisedata;
-
+ let statesdata = [];
 $(window).on('load', () => {
         makeRequest();
  })
@@ -93,9 +199,24 @@ function makeRequest() {
                 let coviddata = JSON.parse(httpRequest.responseText);
                 statewisedata = coviddata.statewise;
                 let tabledata='';
+                let states = [];
+               
                 for (let i = 0; i < statewisedata.length; i++) {
                     if (statewisedata[i].statecode != 'TT' && statewisedata[i].statecode != 'UN') {
-                        tabledata += '<tr>';
+                        states.push({statecode :statewisedata[i].statecode, state :statewisedata[i].state});
+                        statesdata.push({
+                            statecode : statewisedata[i].statecode,
+                            todayscase : statewisedata[i].deltaconfirmed,
+                            todaysdeaths : statewisedata[i].deltadeaths,
+                            todaysrecovered : statewisedata[i].deltarecovered,
+                            totalcases : statewisedata[i].confirmed,
+                            totalactive : statewisedata[i].active,
+                            totalrecovered : statewisedata[i].recovered,
+                            totaldeaths : statewisedata[i].deaths,
+                            lastupdatedtime : statewisedata[i].lastupdatedtime,
+                            state : statewisedata[i].state
+                        });
+                        /*tabledata += '<tr>';
                         tabledata += '<td>' + statewisedata[i].state + '</td>';
                         tabledata += '<td class="info">' + statewisedata[i].deltaconfirmed + '</td>';
                         tabledata += '<td class="success">' + statewisedata[i].deltarecovered + '</td>';
@@ -105,15 +226,44 @@ function makeRequest() {
                         tabledata += '<td class="success">' + statewisedata[i].recovered + '</td>';
                         tabledata += '<td class="danger">' + statewisedata[i].deaths + '</td>';
                         tabledata += '<td>' + statewisedata[i].lastupdatedtime + '</td>';
-                        tabledata += '</tr>'
+                        tabledata += '</tr>'*/
                     }
                 }
-                $('#tblStatewise tbody').html(tabledata);
+                //$('#tblStatewise tbody').html(tabledata);
+                states.forEach( st => {
+                    console.log(st);
+                    $('#state').append('<option value=' + st.statecode + '>' + st.state + '</option>')
+                });
 
             } else {
                 alert('There was a problem with the request.');
             }
         }
     }
+$( "#state" ).selectmenu({
+    select : function(event,ui){
+        let tabledata='';
+        //console.log(event);
+        //console.log(ui);
+        //alert(ui.item.value);
+        if(ui.item.value != 0)
+            {
+                let statedata = statesdata.find(st => st.statecode === ui.item.value);
+        //console.log(statedata);
+                document.getElementById('totalcovidcases').innerText = statedata.totalcases;
+                        document.getElementById('totalactivecase').innerText = statedata.totalactive;
+                        document.getElementById('totaldeaths').innerText = statedata.totaldeaths;
+                        document.getElementById('totalrecovered').innerText = statedata.totalrecovered;
+                        document.getElementById('todayrecovered').innerText = statedata.todaysrecovered;
+                        document.getElementById('todaycases').innerText = statedata.todayscase;
+                        document.getElementById('todaydeaths').innerText = statedata.todaysdeaths;
+                $('#coviddata').css('display','block');
+            }
+        else{
+            alert('Please select a state');
+        }
+        
+    }
+});
 </script>
 </html>
