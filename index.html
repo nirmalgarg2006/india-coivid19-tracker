@@ -10,7 +10,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans" rel="stylesheet">
-	<script data-ad-client="ca-pub-6075914433048997" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <style>
         *{
     		margin: 0;
@@ -26,12 +25,9 @@
         	<h1 class="text-center text-capitalize pt-2">Covid19 India Tracker</h1>
             <hr class="w-50 mx-auto">
             <div class="row">
-    			<div class="col-lg-8 col-md-8 col-12 mr-auto">
+    			<div class="col-lg-12 col-md-12 col-12 text-lg-center">
     				<a href="./statewisecovidcases.html" target="_black" class="btn btn-primary">Statewise</a>
     				<button class="btn btn-primary" onclick="refreshData(); return false;">Refresh</button>
-    			</div>
-    			<div class="col-lg-4 col-md-4 col-12 ml-auto">
-    				<p>Last Updated Time : <span  id="lastUpdatedTime"></span><p>
     			</div>
     		</div>
             <div class="row mb-5 pt-2">
@@ -39,7 +35,7 @@
                     <div class="card bg-info text-white text-center font-weight-bold">
                         <div class="card-body" style="font-size: 30px;">
                             <p>Today's Cases</p>
-                            <p>Count : <span id="todaycases"></span></p>
+                            <p><span id="todaycases"></span></p>
                         </div>
                     </div>
                 </div>
@@ -47,7 +43,7 @@
                     <div class="card bg-success text-white text-center font-weight-bold">
                         <div class="card-body" style="font-size: 30px;">
                             <p>Today's Recovered</p>
-                            <p>Count : <span id="todayrecovered"></span></p>
+                          <p><span id="todayrecovered"></span></p>
                         </div>
                     </div>
                 </div>
@@ -55,7 +51,7 @@
                     <div class="card bg-danger text-white text-center font-weight-bold">
                         <div class="card-body" style="font-size: 30px;">
                             <p>Today's Deaths</p>
-                            <p>Count : <span id="todaydeaths"></span></p>
+                            <p><span id="todaydeaths"></span></p>
                         </div>
                     </div>
                 </div>
@@ -65,7 +61,7 @@
                     <div class="card bg-info text-white text-center font-weight-bold">
                         <div class="card-body" style="font-size: 30px;">
                             <p>Total Cases</p>
-                            <p>Count : <span id="totalcovidcases"></span></p>
+                            <p><span id="totalcovidcases"></span></p>
                         </div>
                     </div>
                 </div>
@@ -73,7 +69,7 @@
                     <div class="card bg-success text-white text-center font-weight-bold">
                         <div class="card-body" style="font-size: 30px;">
                             <p>Total Recovered</p>
-                            <p>Count : <span id="totalrecovered"></span></p>
+                            <p><span id="totalrecovered"></span></p>
                         </div>
                     </div>
                 </div>
@@ -81,7 +77,7 @@
                     <div class="card bg-danger text-white text-center font-weight-bold">
                         <div class="card-body" style="font-size: 30px;">
                             <p class="text-capitalize">Total Deaths</p>
-                            <p>Count : <span id="totaldeaths"></span></p>
+                            <p><span id="totaldeaths"></span></p>
                         </div>
                     </div>
                 </div>
@@ -92,43 +88,13 @@
                     <div class="card bg-warning text-white text-center font-weight-bold">
                         <div class="card-body" style="font-size: 30px;">
                             <p>Total Active Cases</p>
-                            <p>Count : <span id="totalactivecase"></span></p>
+                            <p><span id="totalactivecase"></span></p>
                         </div>
                     </div>
                 </div>
                 
             </div>
         </div>
-    </section>
-    <section>
-        <!-- The Modal -->
-  <div class="modal fade" id="myModal">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-      
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Loading...</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        
-        <!-- Modal body -->
-        <div class="modal-body  ml-auto mr-auto text-center">
-         <div class="spinner-border text-primary" role="status">
-  <span class="sr-only">Loading...</span>
-</div>
-        </div>
-        
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-        
-      </div>
-    </div>
-  </div>
-  
-</div>
     </section>
 </body>
     <script type="text/javascript">
@@ -176,31 +142,21 @@ let statewisedata;
                         document.getElementById('todayrecovered').innerText = todayrecovered;
                         document.getElementById('todaycases').innerText = todaycases;
                         document.getElementById('todaydeaths').innerText = todaydeaths;
-						document.getElementById('lastUpdatedTime').innerText = statewisedata[i].lastupdatedtime;
-                        $('#myModal').modal('hide');
                     }
                 }
 
             } else {
-                $('#myModal').modal('hide');
                 alert('There was a problem with the request.');
             }
         }
     }
 
     $(window).on('load', () => {
-        $('#myModal').modal('show');
-        setTimeout(function(){
-            makeRequest();
-        },3000);
+        makeRequest();
     })
 
     function refreshData(){
-        $('#myModal').modal('show');
-        setTimeout(function(){
-            makeRequest();
-        },3000);
-        
+        makeRequest();
     }
 
    
