@@ -114,15 +114,36 @@
         
         <!-- Modal body -->
         <div class="modal-body  ml-auto mr-auto text-center">
-         <div class="spinner-border text-primary" role="status">
-  <span class="sr-only">Loading...</span>
-</div>
+                 <div class="spinner-grow text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-secondary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-success" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-danger" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-warning" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-info" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-dark" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+          </div>
         </div>
         
         <!-- Modal footer -->
+<!--
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
+-->
         
       </div>
     </div>
@@ -169,14 +190,14 @@ let statewisedata;
                         let todaycases = statewisedata[i].deltaconfirmed;
                         let todayrecovered = statewisedata[i].deltarecovered;
                         let todaydeaths = statewisedata[i].deltadeaths;
-                        document.getElementById('totalcovidcases').innerText = totalcovidcases;
-                        document.getElementById('totalactivecase').innerText = totalactivecase;
-                        document.getElementById('totaldeaths').innerText = totaldeaths;
-                        document.getElementById('totalrecovered').innerText = totalrecovered;
-                        document.getElementById('todayrecovered').innerText = todayrecovered;
-                        document.getElementById('todaycases').innerText = todaycases;
-                        document.getElementById('todaydeaths').innerText = todaydeaths;
-						document.getElementById('lastUpdatedTime').innerText = statewisedata[i].lastupdatedtime;
+                        $('#totalcovidcases').text(totalcovidcases);
+                        $('#totalactivecase').text(totalactivecase);
+                        $('#totaldeaths').text(totaldeaths);
+                        $('#totalrecovered').text(totalrecovered);
+                        $('#todayrecovered').text(todayrecovered);
+                        $('#todaycases').text(todaycases);
+                        $('#todaydeaths').text(todaydeaths);
+						$('#lastUpdatedTime').text(statewisedata[i].lastupdatedtime);
                         $('#myModal').modal('hide');
                     }
                 }
