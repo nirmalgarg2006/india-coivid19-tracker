@@ -16,6 +16,10 @@ app.get('/statewisecovidcases.html', (req,res) => {
     res.sendFile( __dirname + "/" + "statewisecovidcases.html" );
 });
 
+app.get('/image', (req,res) => {
+    res.sendFile( __dirname + "/" + "sampleimage.png" );
+})
+
 const server = app.listen(process.env.PORT || 8080, () => {
     const host = server.address().address
     const port = server.address().port
