@@ -216,9 +216,15 @@ function makeRequest() {
                     }
                 }
                 
+				var stateSelect = $('#state');
+				stateSelect.innerHTML = '';
                 states.forEach( st => {
-                    console.log(st);
-                    $('#state').append('<option value=' + st.statecode + '>' + st.state + '</option>')
+                    //console.log(st);
+					var optionElement = document.createElement("option");
+					optionElement.value = st.statecode;
+					optionElement.text = st.state;
+					stateSelect.append(optionElement);
+                    //$('#state').append('<option value=' + st.statecode + '>' + st.state + '</option>')
                 });
 
             } else {
